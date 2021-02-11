@@ -60,24 +60,22 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 36,
             ),
-            InkWell(
-              onTap: () async {
-                setState(() {
-                  changeButton = true;
-                });
-                await Future.delayed(Duration(seconds: 1));
-                Navigator.pushNamed(context, Routes.homePageRoute);
-              },
-              child: AnimatedContainer(
-                curve: Curves.fastOutSlowIn,
-                duration: Duration(seconds: 1),
-                child: Container(
+            Material(
+              color: Colors.deepPurple,
+              borderRadius: BorderRadius.circular(changeButton ? 50 : 8),
+              child: InkWell(
+                onTap: () async {
+                  setState(() {
+                    changeButton = true;
+                  });
+                  await Future.delayed(Duration(seconds: 1));
+                  Navigator.pushNamed(context, Routes.homePageRoute);
+                },
+                child: AnimatedContainer(
+                  curve: Curves.fastOutSlowIn,
+                  duration: Duration(seconds: 1),
                   height: 50,
                   width: changeButton ? 50 : 120,
-                  decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      borderRadius:
-                          BorderRadius.circular(changeButton ? 50 : 8)),
                   child: Center(
                     child: changeButton
                         ? Icon(
@@ -86,26 +84,13 @@ class _LoginPageState extends State<LoginPage> {
                           )
                         : Text("Login",
                             style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                letterSpacing: 1.1)),
+                              color: Colors.white,
+                              fontSize: 18,
+                            )),
                   ),
                 ),
               ),
             )
-            // MaterialButton(
-            //   elevation: 0.5,
-            //   minWidth: 120,
-            //   height: 40,
-            //   color: Colors.deepPurple,
-            //   child: Text(
-            //     "Login",
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            //   onPressed: () {
-            //     Navigator.pushNamed(context, Routes.homePageRoute);
-            //   },
-            // )
           ],
         ),
       ),
