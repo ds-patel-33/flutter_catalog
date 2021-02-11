@@ -8,7 +8,23 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   String name = "";
+
+  final _formKey = GlobalKey<FormState>();
   bool changeButton = false;
+
+  moveToHomePage() async {
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        changeButton = true;
+      });
+      await Future.delayed(Duration(seconds: 1));
+      Navigator.pushNamed(context, Routes.homePageRoute).then((value) {
+        setState(() {
+          changeButton = false;
+        });
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +38,10 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.asset("assets/images/login_image.png"),
+            SizedBox(
+              height: 40,
+            ),
+            Image.asset("assets/images/hey.png"),
             SizedBox(
               height: 20,
             ),
@@ -38,23 +57,38 @@ class _LoginPageState extends State<LoginPage> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Column(
-                children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                        hintText: "Enter Username", labelText: "Useranme :"),
-                    onChanged: (value) {
-                      setState(() {
-                        name = value;
-                      });
-                    },
-                  ),
-                  TextFormField(
-                    obscureText: true,
-                    decoration: InputDecoration(
-                        hintText: "Enter Username", labelText: "Useranme :"),
-                  ),
-                ],
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    TextFormField(
+                      decoration: InputDecoration(
+                          hintText: "Enter Username", labelText: "Useranme :"),
+                      onChanged: (value) {
+                        setState(() {
+                          name = value;
+                        });
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return " Username can't be empty";
+                        }
+                      },
+                    ),
+                    TextFormField(
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          hintText: "Enter Password", labelText: "Password :"),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return " Password can't be empty";
+                        } else if (value.length < 6) {
+                          return "Password lenght shold atleast 6";
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -65,13 +99,7 @@ class _LoginPageState extends State<LoginPage> {
               borderRadius: BorderRadius.circular(changeButton ? 40 : 8),
               child: InkWell(
                 splashColor: Colors.white,
-                onTap: () async {
-                  setState(() {
-                    changeButton = true;
-                  });
-                  await Future.delayed(Duration(seconds: 1));
-                  Navigator.pushNamed(context, Routes.homePageRoute);
-                },
+                onTap: () => moveToHomePage(),
                 child: AnimatedContainer(
                   curve: Curves.fastOutSlowIn,
                   duration: Duration(seconds: 1),
