@@ -12,8 +12,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
+    return Material(
+        child: SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 32.0,
@@ -60,24 +60,23 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: 36,
             ),
-            InkWell(
-              onTap: () async {
-                setState(() {
-                  changeButton = true;
-                });
-                await Future.delayed(Duration(seconds: 1));
-                Navigator.pushNamed(context, Routes.homePageRoute);
-              },
-              child: AnimatedContainer(
-                curve: Curves.fastOutSlowIn,
-                duration: Duration(seconds: 1),
-                child: Container(
-                  height: 50,
-                  width: changeButton ? 50 : 120,
-                  decoration: BoxDecoration(
-                      color: Colors.deepPurple,
-                      borderRadius:
-                          BorderRadius.circular(changeButton ? 50 : 8)),
+            Material(
+              color: Colors.deepPurple,
+              borderRadius: BorderRadius.circular(changeButton ? 40 : 8),
+              child: InkWell(
+                splashColor: Colors.white,
+                onTap: () async {
+                  setState(() {
+                    changeButton = true;
+                  });
+                  await Future.delayed(Duration(seconds: 1));
+                  Navigator.pushNamed(context, Routes.homePageRoute);
+                },
+                child: AnimatedContainer(
+                  curve: Curves.fastOutSlowIn,
+                  duration: Duration(seconds: 1),
+                  width: changeButton ? 40 : 140,
+                  height: 40,
                   child: Center(
                     child: changeButton
                         ? Icon(
@@ -93,19 +92,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             )
-            // MaterialButton(
-            //   elevation: 0.5,
-            //   minWidth: 120,
-            //   height: 40,
-            //   color: Colors.deepPurple,
-            //   child: Text(
-            //     "Login",
-            //     style: TextStyle(color: Colors.white),
-            //   ),
-            //   onPressed: () {
-            //     Navigator.pushNamed(context, Routes.homePageRoute);
-            //   },
-            // )
           ],
         ),
       ),
